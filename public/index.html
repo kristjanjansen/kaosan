@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+
+        .placeholder {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eee;
+            font-family: sans-serif;
+        }
+
+        .ad {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: yellow;
+            font-family: sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="placeholder">Placeholder</div>
+    <div class="ad" data-id="123">Ad</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vissense/0.10.0/vissense.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        
+        var socket = io.connect();
+
+        $('.ad').on('click', function() {
+        
+            socket.emit('ad', {
+                id: _.sample([1,2,3,4]),
+                type: 'click',
+                session: _.sample(['6ags51', 'a7dad1'])
+            })
+        
+        });
+
+        var visobj = VisSense($('.ad')[0]);
+
+        var visibilityMonitor = VisSense.VisMon.Builder(visobj)
+            .strategy(new VisSense.VisMon.Strategy.EventStrategy({ throttle: 50 }))
+            .on('visible', function (monitor) {
+
+                socket.emit('ad', {
+                    id: _.sample([1]),
+                    type: 'visible',
+                    session: _.sample(['6ags51', 'a7dad1'])
+                })
+
+            })
+            .build()
+            .startAsync();
+
+    </script>
+
+</body>
+</html>
+
