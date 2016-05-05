@@ -43,7 +43,7 @@
         
         var socket = io.connect();
 
-        $('.ad').on('click', function() {
+        $('.ad').on('click', _.throttle(function() {
         
             socket.emit('ad', {
                 id: $(this).data('id'),
@@ -52,7 +52,7 @@
                 timestamp: moment().valueOf()
             })
         
-        });
+        }, 5000));
 
         $('.ad').each(function() {
         
