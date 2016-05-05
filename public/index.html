@@ -5,7 +5,7 @@
     <style>
 
         .placeholder {
-            height: 300px;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -27,7 +27,12 @@
 <body>
 
     <div class="placeholder">Placeholder</div>
-    <div class="ad" data-id="123">Ad</div>
+
+    <div class="ad" data-id="123">Ad1</div>
+
+    <div class="placeholder">Placeholder</div>
+
+    <div class="ad" data-id="456">Ad2</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vissense/0.10.0/vissense.min.js"></script>
@@ -40,28 +45,32 @@
         $('.ad').on('click', function() {
         
             socket.emit('ad', {
-                id: _.sample([1,2,3,4]),
+                id: $(this).data('id'),
                 type: 'click',
                 session: _.sample(['6ags51', 'a7dad1'])
             })
         
         });
 
-        var visobj = VisSense($('.ad')[0]);
+        $('.ad').each(function() {
+        
+            var visobj = VisSense($(this)[0]);
 
-        var visibilityMonitor = VisSense.VisMon.Builder(visobj)
-            .strategy(new VisSense.VisMon.Strategy.EventStrategy({ throttle: 50 }))
+            var visibilityMonitor = VisSense.VisMon.Builder(visobj)
+            .strategy(new VisSense.VisMon.Strategy.EventStrategy({ throttle: 1000 }))
             .on('visible', function (monitor) {
 
                 socket.emit('ad', {
-                    id: _.sample([1]),
+                    id: $(this).data('id'),
                     type: 'visible',
                     session: _.sample(['6ags51', 'a7dad1'])
                 })
 
-            })
+            }.bind(this))
             .build()
             .startAsync();
+        
+        })
 
     </script>
 
