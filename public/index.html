@@ -37,6 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vissense/0.10.0/vissense.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         
@@ -47,7 +48,8 @@
             socket.emit('ad', {
                 id: $(this).data('id'),
                 type: 'click',
-                session: _.sample(['6ags51', 'a7dad1'])
+                session: _.sample(['6ags51', 'a7dad1']),
+                timestamp: moment().valueOf()
             })
         
         });
@@ -62,8 +64,9 @@
 
                 socket.emit('ad', {
                     id: $(this).data('id'),
-                    type: 'visible',
-                    session: _.sample(['6ags51', 'a7dad1'])
+                    type: 'impression',
+                    session: _.sample(['6ags51', 'a7dad1']),
+                    timestamp: moment().valueOf()
                 })
 
             }.bind(this))

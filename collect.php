@@ -6,7 +6,7 @@ use Predis\Collection\Iterator;
 
 $redis = new Predis\Client();
 
-$pattern = "ad-a-*";
+$pattern = "ad-*";
 
 $stat = [];
 
@@ -14,10 +14,7 @@ foreach (new Iterator\Keyspace($redis, $pattern) as $key) {
 
     $el = explode('-', $key);
 
-    $stat[] = (object) [
-        'id' => $el[2],
-        $el[3] => $redis->get($key)
-    ];
+    $stat[] = (object) $el;
 
 }
 
