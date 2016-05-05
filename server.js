@@ -17,19 +17,7 @@ io.on('connection', function (socket) {
         
         console.log(data)
 
-        var key_session = ['ad', 's', data.id, data.type, data.session].join('-')
-        var key_aggregate = ['ad', 'a', data.id, data.type].join('-')
-        
-        //redis.set(key_session, true)
-        
-        redis.get(key_session, function (err, result) {
-        
-            if (!result) {
-                redis.incr(key_aggregate)
-                redis.set(key_session, true)
-            }
-
-        });
+        redis.set(['ad', data.id, data.type, data.session, data.timestamp].join('-'), true)
     
     });
 
