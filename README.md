@@ -1,6 +1,10 @@
-## Realtime promotions engine
+![](https://live.staticflickr.com/2719/4046985580_d32a481048_b.jpg)
 
-See
+## Kaosan
+
+Realtime UI views statistics on Redis. Developed for https://trip.ee
+
+### See also
 
 https://vissense.github.io/vissense/
 
